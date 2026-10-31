@@ -2,20 +2,14 @@
 
 # weft8-kit
 
-<!-- shot:start -->
-
-![Screenshot](docs/shot.png)
-
-<!-- shot:end -->
-
 **A rule engine small enough to sign off.**
 
-[![Live bench](https://img.shields.io/badge/live-the%20rule%20bench-5c7a55
-[![Test](https://img.shields.io/github/actions/workflow/status/drsamonline/weft8-kit/test.yml
-[![Build + deploy](https://img.shields.io/github/actions/workflow/status/drsamonline/weft8-kit/build-apps.yml
-[![Licence](https://img.shields.io/badge/licence-PolyForm%20Noncommercial%201.0.0-8c3b2e
-[![Built on the Loom](https://img.shields.io/badge/built%20on-the%20Loom%20(app--jacquard)-8c3b2e
-[![Dependencies](https://img.shields.io/badge/runtime%20deps-0-5c7a55
+[![Live bench](https://img.shields.io/badge/live-the%20rule%20bench-5c7a55?style=flat-square&labelColor=22261d)](https://drsamonline.github.io/weft8-kit/)
+[![Test](https://img.shields.io/github/actions/workflow/status/drsamonline/weft8-kit/test.yml?branch=main&style=flat-square&label=tests&labelColor=22261d)](https://github.com/drsamonline/weft8-kit/actions/workflows/test.yml)
+[![Build + deploy](https://img.shields.io/github/actions/workflow/status/drsamonline/weft8-kit/build-apps.yml?branch=main&style=flat-square&label=build&labelColor=22261d)](https://github.com/drsamonline/weft8-kit/actions/workflows/build-apps.yml)
+[![Licence](https://img.shields.io/badge/licence-PolyForm%20Noncommercial%201.0.0-8c3b2e?style=flat-square&labelColor=22261d)](LICENSE)
+[![Built on the Loom](https://img.shields.io/badge/built%20on-the%20Loom%20(app--jacquard)-8c3b2e?style=flat-square&labelColor=22261d)](https://github.com/drsamonline/app-jacquard)
+[![Dependencies](https://img.shields.io/badge/runtime%20deps-0-5c7a55?style=flat-square&labelColor=22261d)](package.json)
 
 [**Open the rule bench →**](https://drsamonline.github.io/weft8-kit/)
 
