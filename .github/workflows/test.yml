@@ -1,0 +1,36 @@
+# The proof. docs/play/weft8.js is the Loom's engine and rules.js is the puzzle
+# world, so these two suites test the app the page actually runs.
+name: Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: "20"
+      - name: Install the test-only dependency (jsdom drives the page)
+        run: npm install --no-audit --no-fund
+      - name: The rules — every case, on the real machine
+        run: node test-node.js
+      - name: The bench — evaluate a rule, move an input, switch rule
+        run: node tests/page-smoke.js
+      - name: The app ships what it says it ships
+        run: |
+          set -euo pipefail
+          for f in index.html weft8.js rules.js web-kit.js; do
+            test -s "docs/play/$f" || { echo "::error::docs/play/$f is missing or empty"; exit 1; }
+          done
+          node --check docs/play/rules.js
+          echo "docs/play is complete" >> "$GITHUB_STEP_SUMMARY"

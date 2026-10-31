@@ -1,0 +1,15 @@
+{
+  "name": "weft8-kit",
+  "version": "1.0.0",
+  "private": true,
+  "description": "weft8-kit \u2014 the Loom's Weft-8 as a reusable rule engine: short, auditable, step-limited rules.",
+  "scripts": {
+    "test": "node test-node.js && node tests/page-smoke.js",
+    "test:engine": "node test-node.js",
+    "test:page": "node tests/page-smoke.js"
+  },
+  "devDependencies": {
+    "jsdom": "^29.1.1"
+  },
+  "license": "SEE LICENSE IN LICENSE"
+}

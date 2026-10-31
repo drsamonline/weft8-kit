@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>weft8-kit — rules you can read</title>
+<meta name="description" content="A rule engine small enough to sign off: each rule is a Weft-8 assembly program with a port contract, run on the Loom's step-limited machine.">
+<meta name="theme-color" content="#eef0e6">
+<style>
+  :root{--paper:#eef0e6;--card:#fbfbf4;--ink:#22261d;--ink2:#4c5443;--mut:#78806c;--line:#d6d9c8;
+        --sage:#5c7a55;--stamp:#8c3b2e;--pass:#4d7a52;--flag:#a2701f;
+        --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+        --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:14.5px/1.6 var(--mono);
+    background-image:repeating-linear-gradient(0deg,rgba(92,122,85,.05) 0 1px,transparent 1px 26px)}
+  a{color:var(--sage)}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 18px 40px}
+  header{display:flex;align-items:center;gap:12px;padding:16px 0;border-bottom:1px solid var(--line);margin-bottom:16px}
+  .mark{width:26px;height:26px;border:1px solid var(--sage);border-radius:3px;position:relative;background:var(--card)}
+  .mark:before{content:"";position:absolute;left:5px;top:6px;width:14px;height:2px;background:var(--sage);
+    box-shadow:0 5px 0 var(--sage),0 10px 0 var(--sage)}
+  h1{margin:0;font:600 14px/1.1 var(--mono);letter-spacing:.18em;text-transform:uppercase}
+  .sub{color:var(--mut);font-size:11.5px}
+  header .r{margin-left:auto;font-size:11.5px;color:var(--mut);display:flex;gap:10px}
+  header .r a{text-decoration:none}
+
+  .cols{display:grid;grid-template-columns:250px 1fr 1fr;gap:14px;align-items:start}
+  @media (max-width:1050px){.cols{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:8px;box-shadow:0 1px 0 rgba(34,38,29,.05)}
+  .card .h{padding:9px 12px;border-bottom:1px solid var(--line);font:600 10px/1 var(--mono);
+    letter-spacing:.2em;text-transform:uppercase;color:var(--mut)}
+  .card .b{padding:12px}
+
+  .rules{list-style:none;margin:0;padding:0}
+  .rules li{margin:0 0 6px}
+  .rules button{width:100%;text-align:left;background:transparent;border:1px solid transparent;border-radius:6px;
+    color:var(--ink);padding:9px 10px;font:500 12.5px/1.35 var(--mono);cursor:pointer}
+  .rules button:hover{background:rgba(92,122,85,.07)}
+  .rules button[aria-current="true"]{border-color:var(--sage);background:rgba(92,122,85,.10)}
+
+  label.in{display:block;margin:0 0 12px}
+  label.in span{display:flex;justify-content:space-between;color:var(--ink2);font-size:12px;margin-bottom:4px}
+  input[type=range]{width:100%;accent-color:var(--sage)}
+  .why{color:var(--mut);font-size:12px;margin:10px 0 0;border-left:2px solid var(--line);padding-left:10px}
+
+  .verdict{margin-top:6px;padding:16px;border:2px dashed var(--line);border-radius:8px;text-align:center}
+  .verdict .word{font:700 26px/1 var(--serif);letter-spacing:.06em;text-transform:uppercase}
+  .verdict.pass{border-color:var(--pass);color:var(--pass)}
+  .verdict.flag{border-color:var(--flag);color:var(--flag)}
+  .verdict.stop{border-color:var(--stamp);color:var(--stamp)}
+  .verdict.none{border-color:var(--line);color:var(--mut)}
+  .verdict small{display:block;margin-top:6px;font:400 11.5px var(--mono);color:var(--mut);letter-spacing:.04em}
+
+  pre{margin:0;background:#f6f7ef;border:1px solid var(--line);border-radius:6px;padding:11px;
+    font:12px/1.7 var(--mono);color:var(--ink2);overflow:auto;max-height:300px;white-space:pre}
+  pre .c{color:#8d967f}
+  pre .k{color:var(--sage);font-weight:600}
+  pre .v{color:var(--stamp)}
+  .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  button.act{background:var(--sage);color:#f6f8f2;border:1px solid var(--sage);border-radius:6px;padding:10px 13px;
+    font:600 12.5px/1 var(--mono);cursor:pointer}
+  button.act:hover{filter:brightness(1.08)}
+  button.gh{background:transparent;color:var(--ink2);border:1px solid var(--line);border-radius:6px;padding:10px 12px;
+    font:500 12.5px/1 var(--mono);cursor:pointer}
+  button.gh:hover{border-color:var(--sage);color:var(--sage)}
+  .stats{margin-top:8px;color:var(--mut);font-size:11.5px}
+  footer{margin-top:16px;padding-top:14px;border-top:1px solid var(--line);color:var(--mut);font-size:11.5px;
+    display:flex;gap:10px;flex-wrap:wrap}
+  code{background:#f0f2e6;border:1px solid var(--line);border-radius:4px;padding:1px 4px;font-size:11.5px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="mark" aria-hidden="true"></span>
+    <div>
+      <h1>weft8-kit</h1>
+      <div class="sub">rules you can read · a Weft-8 program per rule · on the Loom's machine</div>
+    </div>
+    <div class="r"><a href="../">about</a><span>·</span><a href="https://github.com/drsamonline/app-jacquard">the Loom</a></div>
+  </header>
+
+  <div class="cols">
+    <section class="card">
+      <div class="h">the rules</div>
+      <div class="b">
+        <ul class="rules" id="rules"></ul>
+        <p class="why" id="why"></p>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="h">the inputs</div>
+      <div class="b">
+        <div id="inputs"></div>
+        <div class="row">
+          <button class="act" id="eval">Evaluate</button>
+          <button class="gh" id="reset">Reset to the shipped case</button>
+        </div>
+        <div class="stats" id="stats"></div>
+        <p class="why" id="contract">
+          The caller puts the inputs in the IN ports and the rule writes one byte to
+          <code>VERDICT</code>: <b>0</b> pass, <b>1</b> flag, <b>2</b> stop. Nothing else is reachable —
+          the machine has no instruction that touches a file, a network or a page.
+        </p>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="h">the verdict</div>
+      <div class="b">
+        <div class="verdict none" id="verdict">
+          <div class="word" id="word">—</div>
+          <small id="detail">press Evaluate</small>
+        </div>
+        <p class="why" style="margin-top:12px">The same rule, the same machine, every time: no model, no
+        inference, no drift between what the rule says and what it does.</p>
+      </div>
+    </section>
+  </div>
+
+  <section class="card" style="margin-top:14px">
+    <div class="h">the rule, in full</div>
+    <div class="b"><pre id="src">—</pre></div>
+  </section>
+
+  <footer>
+    <span>Built on the Loom — <a href="https://github.com/drsamonline/app-jacquard">app-jacquard</a>:
+      <code>weft8.js</code> byte for byte, plus the rule layer in <code>rules.js</code></span>
+    <span>·</span><span>© 2026 Dr Sohil Momin</span><span>·</span><span>PolyForm Noncommercial 1.0.0</span>
+    <span>·</span><span>example rules, not clinical guidance</span>
+  </footer>
+</div>
+
+<script src="web-kit.js"></script>
+<script src="weft8.js"></script>
+<script src="rules.js"></script>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var current = Rules.RULES[0];
+  var sliders = [];
+
+  function renderRules() {
+    var ul = $("rules");
+    ul.innerHTML = "";
+    Rules.RULES.forEach(function (r) {
+      var li = document.createElement("li");
+      var b = document.createElement("button");
+      b.setAttribute("aria-current", r.id === current.id ? "true" : "false");
+      b.textContent = r.title;
+      b.onclick = function () { current = r; renderRules(); renderInputs(); };
+      li.appendChild(b);
+      ul.appendChild(li);
+    });
+  }
+
+  function renderInputs() {
+    $("why").textContent = current.why;
+    $("src").textContent = current.source;
+    var box = $("inputs");
+    box.innerHTML = "";
+    sliders = [];
+    current.inputs.forEach(function (inp, i) {
+      var lab = document.createElement("label");
+      lab.className = "in";
+      var top = document.createElement("span");
+      var name = document.createElement("b");
+      name.textContent = inp.label;
+      var val = document.createElement("b");
+      val.textContent = inp.value;
+      top.appendChild(name); top.appendChild(val);
+      var range = document.createElement("input");
+      range.type = "range";
+      range.min = inp.min; range.max = inp.max; range.value = inp.value;
+      range.oninput = function () { val.textContent = range.value; };
+      lab.appendChild(top); lab.appendChild(range);
+      box.appendChild(lab);
+      sliders.push(range);
+    });
+    setVerdict(null);
+  }
+
+  function setVerdict(r) {
+    var box = $("verdict");
+    if (!r) {
+      box.className = "verdict none";
+      $("word").textContent = "—";
+      $("detail").textContent = "press Evaluate";
+      $("stats").textContent = "";
+      return;
+    }
+    var kind = r.word === "pass" ? "pass" : (r.word === "flag" ? "flag" : (r.word === "stop" ? "stop" : "none"));
+    box.className = "verdict " + kind;
+    $("word").textContent = r.word;
+    $("detail").textContent = r.bytes ? (r.bytes.length + " bytes · " + r.steps + " steps · " +
+      (r.halted ? "halted" : "stopped early")) : "";
+    $("stats").textContent = r.error ? "the machine stopped: " + r.error : "";
+  }
+
+  $("eval").onclick = function () {
+    var values = sliders.map(function (s) { return +s.value; });
+    var r = Rules.evaluate(current, values);
+    if (r.errors && r.errors.length) {
+      $("verdict").className = "verdict none";
+      $("word").textContent = "error";
+      $("detail").textContent = r.errors.map(function (e) { return e.message; }).join("; ");
+      return;
+    }
+    setVerdict(r);
+  };
+
+  $("reset").onclick = function () {
+    current.inputs.forEach(function (inp, i) {
+      sliders[i].value = inp.value;
+      sliders[i].dispatchEvent(new Event("input"));
+    });
+    setVerdict(null);
+  };
+
+  renderRules();
+  renderInputs();
+  /* evaluate the shipped case straight away: an empty verdict box teaches nothing */
+  $("eval").onclick();
+})();
+</script>
+</body>
+</html>

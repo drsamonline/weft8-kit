@@ -1,0 +1,30 @@
+# Build + release + deploy, from the shared app-builder pipeline.
+name: Build + deploy
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: build
+  cancel-in-progress: true
+
+jobs:
+  app:
+    uses: drsamonline/app-builder/.github/workflows/build.yml@0464e3304fcb096c59574188ea6f68abca015786
+    with:
+      app_name: weft8-kit
+      app_src: docs/play
+      deploy_path: docs
+    permissions:
+      contents: write
+      pages: write
+      id-token: write

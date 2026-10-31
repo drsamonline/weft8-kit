@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>weft8-kit — rules you can read</title>
+<meta name="description" content="A rule engine small enough to sign off: each rule is a Weft-8 assembly program with a port contract, run on the Loom's step-limited machine.">
+<meta name="theme-color" content="#eef0e6">
+<style>
+  :root{--paper:#eef0e6;--card:#fbfbf4;--ink:#22261d;--ink2:#4c5443;--mut:#78806c;--line:#d6d9c8;
+        --sage:#5c7a55;--stamp:#8c3b2e;--amber:#a2701f;
+        --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+        --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.7 var(--mono);
+    background-image:repeating-linear-gradient(0deg,rgba(92,122,85,.05) 0 1px,transparent 1px 28px)}
+  a{color:var(--sage)}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 20px 48px}
+  .top{display:flex;align-items:center;gap:12px;padding:18px 0;border-bottom:1px solid var(--line)}
+  .mark{width:24px;height:24px;border:1px solid var(--sage);border-radius:3px;position:relative;background:var(--card)}
+  .mark:before{content:"";position:absolute;left:5px;top:6px;width:12px;height:2px;background:var(--sage);
+    box-shadow:0 5px 0 var(--sage),0 10px 0 var(--sage)}
+  .brand{font:600 12.5px/1 var(--mono);letter-spacing:.22em;text-transform:uppercase}
+  .top .r{margin-left:auto;font-size:12px;color:var(--mut);display:flex;gap:12px}
+  .top .r a{text-decoration:none}
+
+  .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:32px;align-items:center;padding:52px 0 38px}
+  @media (max-width:880px){.hero{grid-template-columns:1fr;padding:30px 0 22px}}
+  .kick{font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--sage);margin:0 0 12px}
+  h1{font:400 clamp(34px,5.6vw,54px)/1.06 var(--serif);margin:0 0 16px;letter-spacing:-.02em}
+  h1 em{font-style:italic;color:var(--sage)}
+  .lede{color:var(--ink2);max-width:54ch;margin:0 0 22px}
+  .cta{display:flex;gap:10px;flex-wrap:wrap}
+  .btn{display:inline-block;padding:12px 18px;border-radius:7px;text-decoration:none;font-weight:600;
+    background:var(--sage);color:#f6f8f2;border:1px solid var(--sage)}
+  .btn.gh{background:transparent;color:var(--ink2);border:1px solid var(--line)}
+  .btn.gh:hover{border-color:var(--sage);color:var(--sage)}
+
+  .indexcard{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:18px 18px 16px;
+    box-shadow:0 10px 26px rgba(34,38,29,.08);position:relative}
+  .indexcard:before{content:"";position:absolute;left:0;right:0;top:26px;height:1px;background:var(--line)}
+  .indexcard .t{font:600 10px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--mut);margin-bottom:16px}
+  .indexcard pre{margin:0;font:12px/1.75 var(--mono);color:var(--ink2);white-space:pre-wrap}
+  .indexcard pre .k{color:var(--sage);font-weight:600}
+  .indexcard .stamp{position:absolute;right:14px;bottom:12px;transform:rotate(-6deg);
+    border:2px solid var(--stamp);color:var(--stamp);border-radius:4px;padding:3px 9px;
+    font:700 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;opacity:.85}
+
+  section{padding:34px 0;border-top:1px solid var(--line)}
+  h2{font:400 clamp(22px,3.2vw,30px)/1.2 var(--serif);margin:0 0 8px}
+  .sub{color:var(--mut);margin:0 0 22px;max-width:70ch;font-size:14px}
+  .three{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  @media (max-width:880px){.three{grid-template-columns:1fr}}
+  .tile{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:15px}
+  .tile h3{margin:0 0 6px;font:600 12.5px/1.3 var(--mono);color:var(--sage)}
+  .tile p{margin:0;color:var(--ink2);font-size:13px}
+  ul.facts{margin:0;padding-left:18px;color:var(--ink2);font-size:13.5px}
+  ul.facts li{margin:8px 0}
+  ul.facts b{color:var(--ink)}
+  .warn{border-left:2px solid var(--amber);padding:10px 0 10px 14px;color:var(--ink2);font-size:13px;margin-top:18px}
+  footer{border-top:1px solid var(--line);padding:20px 0 40px;color:var(--mut);font-size:12px;display:flex;gap:10px;flex-wrap:wrap}
+  code{background:#f0f2e6;border:1px solid var(--line);border-radius:4px;padding:1px 4px;font-size:12.5px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <span class="mark" aria-hidden="true"></span>
+    <span class="brand">weft8-kit</span>
+    <div class="r"><a href="play/">the bench</a><span>·</span><a href="https://github.com/drsamonline/weft8-kit">source</a></div>
+  </div>
+
+  <div class="hero">
+    <div>
+      <p class="kick">a rule engine · four example rules · one 8-bit machine</p>
+      <h1>Rules small enough<br>to <em>sign off</em>.</h1>
+      <p class="lede">A rule is a Weft-8 program with a contract: the caller puts inputs in the ports, the
+      rule writes one byte — <b>pass</b>, <b>flag</b> or <b>stop</b>. Twenty lines, no model, no inference,
+      and a machine that cannot reach a file, a network or a page. If a rule matters enough to argue about,
+      it matters enough to be readable.</p>
+      <div class="cta">
+        <a class="btn" href="play/">Open the rule bench</a>
+        <a class="btn gh" href="https://github.com/drsamonline/app-jacquard">The machine it runs on</a>
+      </div>
+    </div>
+    <div class="indexcard">
+      <div class="t">card 03 · two red flags, high severity</div>
+      <pre>        <span class="k">IN</span>  IN0
+        MOV R1, R0
+        LDI 2
+        MOV R2, R0
+        CMP R1, R2
+        <span class="k">JL</span>  fine
+        <span class="k">IN</span>  IN1
+        CMP R1, R2
+        <span class="k">JL</span>  fine
+        LDI 2        <span style="color:#8c3b2e">; stop</span>
+        OUT VERDICT</pre>
+      <div class="stamp">read &amp; checked</div>
+    </div>
+  </div>
+
+  <section>
+    <h2>What a kit buys you</h2>
+    <p class="sub">Three properties that a rules engine in a general-purpose language struggles to promise,
+    and that this one can state plainly.</p>
+    <div class="three">
+      <div class="tile"><h3>Readable</h3><p>A rule is twenty lines you can read aloud. No callbacks, no
+        hidden state, no library deciding what "and" means.</p></div>
+      <div class="tile"><h3>Bounded</h3><p>The machine has a step limit and 27 opcodes, none of which touch a
+        file, a network or a page. A runaway rule stops and says so.</p></div>
+      <div class="tile"><h3>Provable</h3><p>Every rule ships its cases, and the test suite runs them on the
+        real machine — including the case where the comparison is flipped, to prove the test bites.</p></div>
+    </div>
+    <p class="warn"><b>The limits, stated:</b> this machine compares <b>signed</b> bytes, so an input above
+    127 reads as negative — every rule here says so where it matters. And the four rules shipped are
+    <b>examples of the pattern, not clinical guidance</b>.</p>
+  </section>
+
+  <section>
+    <h2>The contract</h2>
+    <p class="sub">Inputs at <code>0xD0</code>–<code>0xD3</code>, verdict at <code>0xD7</code>. That is the
+    whole interface — the same in the browser, in a test, and in any app that adopts the kit.</p>
+    <ul class="facts">
+      <li><b>Adopt it in two files:</b> <code>weft8.js</code> and <code>rules.js</code>, copied in. No build
+      step, no dependency, no network.</li>
+      <li><b>Built on the Loom.</b> The machine is <code>weft8.js</code> from
+      <a href="https://github.com/drsamonline/app-jacquard">app-jacquard</a>, byte for byte the same engine.</li>
+      <li><b>Diffable.</b> A rule is text: it goes in a pull request, it gets reviewed, and the reviewer can
+      see exactly what changed in the decision.</li>
+    </ul>
+  </section>
+
+  <footer>
+    <span>Built on the Loom — <a href="https://github.com/drsamonline/app-jacquard">app-jacquard</a>:
+      <code>weft8.js</code> byte for byte</span>
+    <span>·</span><span>© 2026 Dr Sohil Momin</span><span>·</span><span>PolyForm Noncommercial 1.0.0</span>
+  </footer>
+</div>
+</body>
+</html>
