@@ -18,7 +18,7 @@ const click = (id) => d.getElementById(id).dispatchEvent(new w.MouseEvent("click
 const t = (id) => d.getElementById(id).textContent;
 
 ok("the page boots without an error", errors.length === 0, errors.join("; "));
-ok("four rules are listed", d.querySelectorAll("#rules button").length === 4);
+ok("five rules are listed", d.querySelectorAll("#rules button").length === 5);
 ok("the shipped case is evaluated on load", t("word") !== "—", t("word"));
 ok("the first rule flags its shipped case (notes written, labs missing)", t("word") === "flag", t("word"));
 ok("the rule source is shown", /OUT VERDICT/.test(t("src")));

@@ -157,6 +157,50 @@
         { in: [99, 100], verdict: PASS },
         { in: [127, 127], verdict: PASS }
       ]
+    },
+    {
+      id: "two-of-three",
+      name: "At least two of three",
+      question: "Are two of the three fields present?",
+      why: "Counting is not an instruction. The machine adds one for each non-zero input, then compares the count — which is how a machine does 'two of three' without a 'count' anywhere in its instruction set.",
+      inputs: [
+        { name: "IN0", label: "field one present (0/1)", min: 0, max: 1, value: 1 },
+        { name: "IN1", label: "field two present (0/1)", min: 0, max: 1, value: 1 },
+        { name: "IN2", label: "field three present (0/1)", min: 0, max: 1, value: 0 }
+      ],
+      source: [
+        "; count the non-zero inputs in R1, flag if fewer than two",
+        "        LDI 0",
+        "        MOV R1, R0           ; R1 = the count",
+        "        IN  IN0",
+        "        JZ  s1",
+        "        LDI 1",
+        "        ADD R1, R0",
+        "s1:     IN  IN1",
+        "        JZ  s2",
+        "        LDI 1",
+        "        ADD R1, R0",
+        "s2:     IN  IN2",
+        "        JZ  s3",
+        "        LDI 1",
+        "        ADD R1, R0",
+        "s3:     LDI 2",
+        "        MOV R2, R0",
+        "        CMP R1, R2",
+        "        JL  flag             ; fewer than two",
+        "        LDI 0",
+        "        OUT VERDICT",
+        "        HLT",
+        "flag:   LDI 1",
+        "        OUT VERDICT",
+        "        HLT"
+      ].join("\n"),
+      cases: [
+        { in: [1, 1, 1], verdict: PASS },
+        { in: [1, 1, 0], verdict: PASS },
+        { in: [1, 0, 0], verdict: FLAG },
+        { in: [0, 0, 0], verdict: FLAG }
+      ]
     }
   ];
 

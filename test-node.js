@@ -86,10 +86,25 @@ console.log("the rules bite — change the comparison and the cases fail");
 }
 
 console.log("the API — what the README promises");
-ok(Array.isArray(Rules.RULES) && Rules.RULES.length === 4, "four example rules ship");
+ok(Array.isArray(Rules.RULES) && Rules.RULES.length === 5, "five example rules ship");
 ok(typeof Rules.ruleById === "function" && Rules.ruleById("ceiling").id === "ceiling", "ruleById finds a rule");
 ok(Rules.ruleById("nope") === null, "and returns null for one that does not exist");
 eq([Rules.PASS, Rules.FLAG, Rules.STOP], [0, 1, 2], "the verdict codes are 0 pass, 1 flag, 2 stop");
+
+
+/* the family — every page links back to the Loom, and the Loom to every page */
+{
+  const fsm = require("fs");
+  const landing = fsm.readFileSync("./docs/index.html", "utf8");
+  ok(landing.indexOf('id="family"') > 0, "the landing page carries the family strip");
+  ok(landing.indexOf("you are here") > 0, "and marks this page as the one you are on");
+  ['app-jacquard', 'app-weft-puzzles', 'app-clip-loom', 'weft8-hardware', 'weft8-classroom', 'weft8-compare'].forEach(function (slug) {
+    ok(landing.indexOf("https://drsamonline.github.io/" + slug + "/") > 0, "it links to " + slug);
+  });
+  const readme = fsm.readFileSync("./README.md", "utf8");
+  ok(readme.indexOf("The Weft-8 family") > 0, "the README carries the family table too");
+  ok(readme.indexOf("you are here") > 0, "and marks this repository in it");
+}
 
 console.log("");
 console.log(pass + " passed, " + failures.length + " failed");

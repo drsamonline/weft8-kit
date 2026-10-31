@@ -2,12 +2,6 @@
 
 # weft8-kit
 
-<!-- shot:start -->
-
-![Screenshot](docs/shot.png)
-
-<!-- shot:end -->
-
 **A rule engine small enough to sign off.**
 
 [![Live bench](https://img.shields.io/badge/live-the%20rule%20bench-5c7a55?style=flat-square&labelColor=22261d)](https://drsamonline.github.io/weft8-kit/)
@@ -44,7 +38,7 @@ Three properties a rules engine in a general-purpose language struggles to promi
 - **Provable** — every rule ships its cases and the test suite runs them on the real machine, including a
   case where the comparison is deliberately flipped to prove the test bites.
 
-## The four example rules
+## The five example rules
 
 | Rule | Question | What it shows |
 |---|---|---|
@@ -52,6 +46,7 @@ Three properties a rules engine in a general-purpose language struggles to promi
 | `follow-up-due` | has it been longer than the agreed interval? | a threshold that is an **input**, not a number baked into code |
 | `two-red-flags` | two or more flags, and severity ≥ 7? | what an "and" costs when the machine has no `and` branch |
 | `ceiling` | is the value above the ceiling you set? | the pattern a dose or budget check uses |
+| `two-of-three` | are two of the three fields present? | counting is not an instruction — you add one per input and compare |
 
 > These are **examples of the pattern, not clinical guidance.** The numbers in them are illustrations.
 
@@ -95,6 +90,22 @@ permission list), and that flipping a comparison or deleting a check makes the m
   so in its own words, and a test pins that behaviour rather than hiding it.
 - Four rules is a demonstration, not a library of clinical logic. Adopting the kit means writing and
   checking your own.
+
+
+## The Weft-8 family
+
+One machine, seven faces. Every one of these runs `weft8.js` from the Loom, byte for byte —
+learn it once and you have learned all seven.
+
+| | what it is |
+|---|---|
+| [the Loom](https://drsamonline.github.io/app-jacquard/) | the machine and its editor — where it all starts |
+| [Weft Puzzles](https://drsamonline.github.io/app-weft-puzzles/) | five puzzles solved in assembly, a robot on a grid |
+| [Clip Loom](https://drsamonline.github.io/app-clip-loom/) | clipboard programs you can read: strip, squeeze, wrap |
+| [Weft-8 on hardware](https://drsamonline.github.io/weft8-hardware/) | the same machine in C, three-way parity with the JS one |
+| **weft8-kit** (you are here) | rules small enough to sign off |
+| [Weft-8 Classroom](https://drsamonline.github.io/weft8-classroom/) | eight exercises that teach how a computer works |
+| [Weft-8 beside x86 and ARM](https://drsamonline.github.io/weft8-compare/) | the same four jobs in three machines |
 
 ## Licence
 
