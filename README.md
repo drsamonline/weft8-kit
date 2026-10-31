@@ -2,6 +2,12 @@
 
 # weft8-kit
 
+<!-- shot:start -->
+
+![Screenshot](docs/shot.png)
+
+<!-- shot:end -->
+
 **A rule engine small enough to sign off.**
 
 [![Live bench](https://img.shields.io/badge/live-the%20rule%20bench-5c7a55
