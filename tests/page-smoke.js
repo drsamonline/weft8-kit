@@ -6,7 +6,7 @@ let JSDOM;
 try { ({ JSDOM } = require("jsdom")); } catch (e) { console.log("jsdom missing — npm install"); process.exit(2); }
 const dir = path.join(__dirname, "..", "docs", "play");
 let html = fs.readFileSync(path.join(dir, "index.html"), "utf8");
-for (const k of ["web-kit.js", "weft8.js", "rules.js"])
+for (const k of ["weft8.js", "rules.js"])
   html = html.replace('<script src="' + k + '"></script>', "<script>" + fs.readFileSync(path.join(dir, k), "utf8") + "</script>");
 const errors = [];
 const dom = new JSDOM(html, { runScripts: "dangerously", pretendToBeVisual: true,

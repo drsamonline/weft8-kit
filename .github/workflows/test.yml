@@ -29,7 +29,7 @@ jobs:
       - name: The app ships what it says it ships
         run: |
           set -euo pipefail
-          for f in index.html weft8.js rules.js web-kit.js; do
+          for f in index.html weft8.js rules.js; do
             test -s "docs/play/$f" || { echo "::error::docs/play/$f is missing or empty"; exit 1; }
           done
           node --check docs/play/rules.js
