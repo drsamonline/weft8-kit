@@ -19,7 +19,7 @@ concurrency:
 
 jobs:
   app:
-    uses: drsamonline/app-builder/.github/workflows/build.yml@d3243de862fa0477840205bbe2f41cb3f2f4950c
+    uses: drsamonline/app-builder/.github/workflows/build.yml@49c2e0b
     with:
       app_name: weft8-kit
       app_src: docs/play
