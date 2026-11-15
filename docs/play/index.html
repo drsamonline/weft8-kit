@@ -95,6 +95,14 @@
   } catch (e) { document.documentElement.setAttribute("data-theme", "light"); }
 })();
 </script>
+<style>
+/* ---- a11y: the rule each label needs, chosen against its measured surface -- */
+[data-theme="light"] button.act{color:#ffffff!important}
+[data-theme="dark"] button.act{color:#ffffff!important}
+[data-theme="light"] code{color:#0b1020!important}
+[data-theme="dark"] code{color:#0b1020!important}
+[data-theme="dark"] pre{color:#0b1020!important}
+</style>
 </head>
 <body>
 <div class="wrap">
