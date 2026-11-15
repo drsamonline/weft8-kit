@@ -103,6 +103,9 @@
   .theme-btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
   .theme-btn:hover{opacity:1}
   .theme-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+
+[data-theme="light"] pre,[data-theme="light"] pre *{color:#3f3529!important}
+[data-theme="dark"] pre,[data-theme="dark"] pre *{color:#e8e4d8!important}
 </style>
 <script>
 /* THEME BEFORE FIRST PAINT: a page that paints one theme and flips to the other is a
@@ -121,6 +124,15 @@
 [data-theme="dark"] a.btn{color:#0b1020!important}
 [data-theme="dark"] pre{color:#ffffff!important}
 [data-theme="dark"] code{color:#0b1020!important}
+</style>
+<style>
+/* ---- a11y: the code block and the ghost ----------------------------------- */
+pre,pre *{color:#e8e4d8!important}          /* 2.26 -> 12.4 on #1a1d16 */
+/* the ghost sits on the light page and on the dark one, so it carries its own
+   surface: a scrim the ink can sit on wherever it lands */
+a.btn.gh{background:rgba(127,127,127,.18)!important;color:inherit!important}
+[data-theme="light"] a.btn.gh{color:#2b2b26!important}
+[data-theme="dark"] a.btn.gh{color:#e8e4d8!important}
 </style>
 </head>
 <body>
